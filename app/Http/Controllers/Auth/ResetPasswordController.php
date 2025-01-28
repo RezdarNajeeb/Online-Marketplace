@@ -22,7 +22,7 @@ class ResetPasswordController extends Controller
     {
         // Validate the request
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users',
             'password' => 'required|confirmed|min:8',
             'token' => 'required'
         ]);

@@ -4,7 +4,7 @@
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
-        <form method="POST" action="{{ route('register.store') }}">
+        <form method="POST" action="{{ route('register') }}">
             @csrf
             <x-input title="Name" name="name" type="text" placeholder="Enter your name" options="required autofocus" />
             <x-input title="Email" name="email" type="email" placeholder="Enter your email" options="required" />
@@ -23,7 +23,7 @@
                 <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">Register</button>
             </div>
             <div class="text-center">
-                <a href="{{ route('login.index') }}" class="text-blue-500 hover:underline">Already have an account? Login</a>
+                <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Already have an account? Login</a>
             </div>
         </form>
     </div>

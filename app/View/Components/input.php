@@ -11,16 +11,18 @@ class input extends Component
     public string $title;
     public string $name;
     public string $type;
+    public string $value;
     public string $placeholder;
     public string $options;
     /**
      * Create a new component instance.
      */
-    public function __construct($title, $name, $type, $placeholder = '', $options = '')
+    public function __construct($title, $name, $type, $value = '', $placeholder = '', $options = '')
     {
         $this->title = $title;
         $this->name = $name;
         $this->type = $type;
+        $this->value = $value;
         $this->placeholder = $placeholder;
         $this->options = $options;
     }
