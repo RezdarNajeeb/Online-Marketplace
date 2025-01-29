@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureSeller
+class EnsureAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class EnsureSeller
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->isSeller()) {
+        if (!$request->user()->isAdmin()) {
             return redirect('/')->with('error', 'You are not authorized to access this page');
         }
 

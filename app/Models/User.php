@@ -49,6 +49,21 @@ class User extends Authenticatable Implements MustVerifyEmail
         ];
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isSeller(): bool
+    {
+        return $this->role === 'seller';
+    }
+
+    public function isBuyer(): bool
+    {
+        return $this->role === 'buyer';
+    }
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class, 'seller_id');

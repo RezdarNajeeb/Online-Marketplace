@@ -14,12 +14,12 @@ class ProductController extends Controller
     public function index()
     {
         $products = Auth::user()->products()->latest()->paginate(10);
-        return view('seller.index', compact('products'));
+        return view('products.seller.index', compact('products'));
     }
 
     public function create()
     {
-        return view('seller.create');
+        return view('products.seller.create');
     }
 
     public function store(ProductRequest $request)
@@ -37,17 +37,17 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return view('seller.show', compact('product'));
+        return view('products.seller.show', compact('product'));
     }
 
     public function edit(Product $product)
     {
-        return view('seller.edit', compact('product'));
+        return view('products.seller.edit', compact('product'));
     }
 
     public function update(ProductRequest $request, Product $product)
     {
-        if($product->seller() !== Auth::user()) {
+        if($product->seller()->isNot(Auth::user())) {
             abort(403);
         }
 
@@ -69,7 +69,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->seller() !== Auth::user()) {
+        if ($product->seller()->isNot(Auth::user())) {
             abort(403);
         }
 

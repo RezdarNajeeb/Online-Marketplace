@@ -13,7 +13,7 @@ trait ProductService
 
     public function deleteImage($imagePath): void
     {
-        if(file_exists(public_path('products/' . $imagePath))) {
+        if($imagePath && file_exists(public_path('products/' . $imagePath))) {
             unlink(public_path('products/' . $imagePath));
         }
     }

@@ -5,7 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
-use App\Http\Controllers\Seller\ProductController;
+use App\Http\Controllers\Buyer\ProductController;
+use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
@@ -40,7 +41,10 @@ Route::middleware(['verified', 'auth'])->group(function () {
     });
 
     // Seller Products Routes
-    Route::prefix('seller')->middleware('ensureSeller')->resource('product', ProductController::class)->names('seller.products');
+    Route::prefix('seller')->middleware('ensureSeller')->resource('seller/product', SellerProductController::class)->names('seller.products');
+
+    // Buyer Products Routes
+    Route::resource('product', ProductController::class)->only(['index', 'show'])->names('products');
 });
 
 
