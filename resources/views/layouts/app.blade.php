@@ -17,7 +17,7 @@
     <!-- Styles -->
     @vite('resources/css/app.css')
 
-    <!-- Meta Tags for SEO and Social Sharing -->
+    <!-- Meta Tags -->
     <meta name="description" content="An online market place">
     <meta name="keywords" content="laravel, ecommerce, products, online market">
     <meta name="author" content="Rezdar">
@@ -28,36 +28,72 @@
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
 <!-- Loading Indicator -->
-<div id="loading" class="fixed inset-0 bg-white/90 dark:bg-gray-900/90 z-50 flex items-center justify-center transition-opacity duration-300">
-    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+<div id="loading" class="fixed inset-0 bg-white/90 dark:bg-gray-900/90 z-50 flex flex-col items-center justify-center gap-4 transition-opacity duration-300">
+    <x-spinner
+        size="xl"
+        color="indigo"
+        class="animate-pulse"
+    />
+    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Loading your experience...</p>
 </div>
 
-<div class="min-h-screen flex flex-col">
+<div class="min-h-screen flex flex-col relative">
     <!-- Navigation -->
     @include('partials.navbar')
 
     <!-- Flash Messages -->
     @if (session('status'))
-        <div class="fixed top-4 right-4 z-50">
-            <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-lg shadow-lg flex items-center animate-slide-in">
-                <i class="fas fa-check-circle mr-2"></i>
-                <span>{{ session('status') }}</span>
-            </div>
-        </div>
+        <x-alert
+            type="success"
+            :dismissible="true"
+            :duration="5000"
+        >
+            {{ session('status') }}
+        </x-alert>
+    @endif
+
+    @if ($errors->any())
+        <x-alert
+            type="error"
+            :dismissible="true"
+        >
+            <ul class="list-disc pl-4 space-y-1">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </x-alert>
     @endif
 
     <!-- Page Content -->
     <main class="flex-1">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            @yield('content')
-        </div>
+        @yield('content')
     </main>
 
     <!-- Scroll to Top Button -->
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-            class="fixed bottom-8 right-8 p-3 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 dark:bg-gray-800/90 dark:border-gray-700 group">
-        <i class="fas fa-chevron-up text-gray-800 dark:text-gray-200 group-hover:text-indigo-600"></i>
-    </button>
+    <x-button
+        variant="secondary"
+        size="sm"
+        icon="chevron-up"
+        icon-position="right"
+        class="fixed bottom-8 right-8 backdrop-blur-sm transition-opacity duration-300 z-50"
+        x-data="{ showButton: false }"
+        x-init="window.addEventListener('scroll', () => {
+        showButton = window.scrollY > 200;
+    })"
+        x-show="showButton"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        aria-label="Scroll to top"
+        style="display: none;"
+    >
+        Top
+    </x-button>
 </div>
 
 <!-- Footer -->
@@ -68,13 +104,15 @@
 
 <!-- Alpine.js -->
 <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <!-- Custom Scripts -->
 <script>
-    // Hide loading indicator when page is fully loaded
     window.addEventListener('load', () => {
-        document.getElementById('loading').classList.add('opacity-0', 'pointer-events-none');
+        const loading = document.getElementById('loading');
+        if (loading) {
+            loading.classList.add('opacity-0', 'pointer-events-none');
+        }
     });
 
     // Persistent dark mode with Alpine.js
@@ -89,5 +127,15 @@
         });
     });
 </script>
+
+<!-- Scroll Progress Indicator -->
+<div class="fixed top-0 left-0 h-1 bg-indigo-600/50 z-50"
+     x-data="{ width: '0%' }"
+     x-init="window.onscroll = () => {
+         width = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100 + '%'
+     }"
+     :style="`width: ${width}`"
+     aria-hidden="true">
+</div>
 </body>
 </html>

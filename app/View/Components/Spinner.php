@@ -6,14 +6,17 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class button extends Component
+class Spinner extends Component
 {
+    public string $size;
+    public string $color;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(string $size = 'md', string $color = 'indigo')
     {
-        //
+        $this->size = $size;
+        $this->color = $color;
     }
 
     /**
@@ -21,6 +24,6 @@ class button extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.button');
+        return view('components.spinner');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -40,11 +41,14 @@ Route::middleware(['verified', 'auth'])->group(function () {
         return view('welcome');
     });
 
+    // Admin Users Routes
+    Route::resource('admin/users', UserController::class)->names('admin.users');
+
     // Seller Products Routes
-    Route::prefix('seller')->middleware('ensureSeller')->resource('seller/product', SellerProductController::class)->names('seller.products');
+    Route::middleware('ensureSeller')->resource('seller/products', SellerProductController::class)->names('seller.products');
 
     // Buyer Products Routes
-    Route::resource('product', ProductController::class)->only(['index', 'show'])->names('products');
+    Route::resource('products', ProductController::class)->only(['index', 'show'])->names('products');
 });
 
 

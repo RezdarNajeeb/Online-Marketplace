@@ -1,4 +1,4 @@
-<footer class="bg-white/80 backdrop-blur-lg dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
+<footer class="bg-white/80 backdrop-blur-lg dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300 z-40">
     <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <!-- Main Footer Content -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -104,18 +104,18 @@
                 <h3 class="text-gray-900 dark:text-white font-semibold text-lg">Stay Updated</h3>
                 <div class="space-y-4">
                     <!-- Newsletter Form -->
-                    <form class="space-y-3">
-                        <div class="relative">
-                            <input type="email"
-                                   placeholder="Your email address"
-                                   class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300">
+                    <x-form method="POST" action="#" :has-files="false" :prevent-multiple-submit="true">
+                        <div class="space-y-2">
+                            <x-input name="email"
+                                     type="email"
+                                     placeholder="your@email.com"
+                                     class="w-full"/>
+
+                            <x-button type="submit" variant="primary" class="w-full" icon="paper-plane">
+                                Subscribe
+                            </x-button>
                         </div>
-                        <button type="submit"
-                                class="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2">
-                            <i class="fas fa-paper-plane"></i>
-                            <span>Subscribe</span>
-                        </button>
-                    </form>
+                    </x-form>
 
                     <!-- Contact Info -->
                     <div class="space-y-3">
